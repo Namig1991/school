@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Student;
 
-import ru.hogwarts.school.service.StudentService;
+import ru.hogwarts.school.schoolInterface.StudentInterface;
 
 
 import java.util.Collection;
@@ -14,15 +14,15 @@ import java.util.Collection;
 @RequestMapping("student")
 public class StudentController {
 
-    private final StudentService studentService;
+    private final StudentInterface studentInterface;
 
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
+    public StudentController(StudentInterface studentInterface) {
+        this.studentInterface = studentInterface;
     }
 
     @GetMapping("{id}")
     public ResponseEntity<Student> getStudentInfo(@PathVariable long id) {
-        Student student = studentService.findStudent(id);
+        Student student = studentInterface.findStudent(id);
         if (student == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -31,31 +31,31 @@ public class StudentController {
 
     @GetMapping("/all")
     public ResponseEntity<Collection<Student>> getAllStudents() {
-        return ResponseEntity.ok(studentService.getAllStudents());
+        return ResponseEntity.ok(studentInterface.getAllStudents());
     }
 
     @GetMapping("/info/{age}")
-    public ResponseEntity<Collection<Student>> getFilterAgeList(int age){
-        return ResponseEntity.ok(studentService.filterStudentsAge(age));
+    public ResponseEntity<Collection<Student>> getFilterAgeList(int age) {
+        return ResponseEntity.ok(studentInterface.filterStudentsAge(age));
     }
 
     @PostMapping
     public Student createStudent(@RequestBody Student student) {
-        return studentService.creatStudent(student);
+        return studentInterface.creatStudent(student);
     }
 
     @PutMapping
     public ResponseEntity<Student> editStudent(@RequestBody Student student) {
-        Student studentEdit = studentService.creatStudent(student);
+        Student studentEdit = studentInterface.creatStudent(student);
         if (studentEdit == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        return ResponseEntity.ok(studentService.editStudent(student));
+        return ResponseEntity.ok(studentInterface.editStudent(student));
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity deleteStudent(@PathVariable long id) {
-        studentService.deleteStudent(id);
+    public ResponseEntity<Student> deleteStudent(@PathVariable long id) {
+        studentInterface.deleteStudent(id);
         return ResponseEntity.ok().build();
     }
 }

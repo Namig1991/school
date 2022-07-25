@@ -3,45 +3,47 @@ package ru.hogwarts.school.service;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.StudentRepository;
+import ru.hogwarts.school.schoolInterface.StudentInterface;
 
 
 import java.util.Collection;
 
 
 @Service
-public class StudentService {
+public class StudentServiceImpl implements StudentInterface {
 
     private final StudentRepository studentRepository;
 
-    public StudentService(StudentRepository studentRepository) {
+    public StudentServiceImpl(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
 
-     //Создание студента
+    @Override//Создание студента
     public Student creatStudent(Student student) {
         return studentRepository.save(student);
     }
 
-    //Поиск студента
+    @Override//Поиск студента
     public Student findStudent(long id) {
         return studentRepository.findById(id).get();
     }
 
-     //Редактирование студента
+    @Override//Редактирование студента
     public Student editStudent(Student student) {
         return studentRepository.save(student);
     }
 
-     //Удаление студента
+    @Override//Удаление студента
     public void deleteStudent(long id) {
         studentRepository.deleteById(id);
     }
 
-     //Получение списка всех студентов
+    @Override//Получение списка всех студентов
     public Collection<Student> getAllStudents() {
         return studentRepository.findAll();
     }
 
+    @Override//Получение списка студентов по возрасту
     public Collection<Student> filterStudentsAge(int age) {
         return studentRepository.findByAge(age);
     }

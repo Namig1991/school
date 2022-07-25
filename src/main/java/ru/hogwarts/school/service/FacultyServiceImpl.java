@@ -3,45 +3,47 @@ package ru.hogwarts.school.service;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repositories.FacultyRepository;
+import ru.hogwarts.school.schoolInterface.FacultyInterface;
 
 
 import java.util.Collection;
 
 
 @Service
-public class FacultyService {
+public class FacultyServiceImpl implements FacultyInterface {
 
     private final FacultyRepository facultyRepository;
 
-    public FacultyService(FacultyRepository facultyRepository) {
+    public FacultyServiceImpl(FacultyRepository facultyRepository) {
         this.facultyRepository = facultyRepository;
     }
 
-    //Создание факультета
+    @Override//Создание факультета
     public Faculty createFaculty(Faculty faculty) {
         return facultyRepository.save(faculty);
     }
 
-    //Поиск факультета
+    @Override//Поиск факультета
     public Faculty findFaculty(long id) {
         return facultyRepository.findById(id).get();
     }
 
-    //Редактирование факультета
+    @Override//Редактирование факультета
     public Faculty editFaculty(Faculty faculty) {
         return facultyRepository.save(faculty);
     }
 
-    //Удаление факультета
+    @Override//Удаление факультета
     public void deleteFaculty(long id) {
         facultyRepository.deleteById(id);
     }
 
-    //Получение списка всех факультетов
+    @Override//Получение списка всех факультетов
     public Collection<Faculty> getAllFaculty() {
         return facultyRepository.findAll();
     }
 
+    @Override//Получение списка факультетов по цвету
     public Collection<Faculty> filterFacultyColor(String color) {
         return facultyRepository.findByColor(color);
     }
