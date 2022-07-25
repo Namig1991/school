@@ -4,7 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Student;
-import ru.hogwarts.school.schoolInterface.StudentService;
+
+import ru.hogwarts.school.service.StudentService;
+
 
 import java.util.Collection;
 
@@ -32,7 +34,7 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 
-    @GetMapping("/filter")
+    @GetMapping("/info/{age}")
     public ResponseEntity<Collection<Student>> getFilterAgeList(int age){
         return ResponseEntity.ok(studentService.filterStudentsAge(age));
     }
@@ -44,7 +46,7 @@ public class StudentController {
 
     @PutMapping
     public ResponseEntity<Student> editStudent(@RequestBody Student student) {
-        Student studentEdit = studentService.editStudent(student);
+        Student studentEdit = studentService.creatStudent(student);
         if (studentEdit == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -52,7 +54,8 @@ public class StudentController {
     }
 
     @DeleteMapping("{id}")
-    public Student deleteStudent(@PathVariable long id) {
-        return studentService.deleteStudent(id);
+    public ResponseEntity deleteStudent(@PathVariable long id) {
+        studentService.deleteStudent(id);
+        return ResponseEntity.ok().build();
     }
 }
