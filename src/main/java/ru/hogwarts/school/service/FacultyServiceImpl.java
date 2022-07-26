@@ -2,58 +2,49 @@ package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
-import ru.hogwarts.school.schoolInterface.FacultyService;
+import ru.hogwarts.school.repositories.FacultyRepository;
+import ru.hogwarts.school.schoolInterface.FacultyInterface;
+
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.stream.Collectors;
+
 
 @Service
-public class FacultyServiceImpl implements FacultyService {
+public class FacultyServiceImpl implements FacultyInterface {
 
-    private final HashMap<Long, Faculty> facultyHashMap = new HashMap<>();
-    private long counterFaculty = 0;
+    private final FacultyRepository facultyRepository;
 
-    @Override //Создание факультета
+    public FacultyServiceImpl(FacultyRepository facultyRepository) {
+        this.facultyRepository = facultyRepository;
+    }
+
+    @Override//Создание факультета
     public Faculty createFaculty(Faculty faculty) {
-        faculty.setId(++counterFaculty);
-        facultyHashMap.put(counterFaculty, faculty);
-        return faculty;
+        return facultyRepository.save(faculty);
     }
 
-    @Override //Поиск факультета
+    @Override//Поиск факультета
     public Faculty findFaculty(long id) {
-        if(id > 0 && facultyHashMap.containsKey(id)) {
-            return facultyHashMap.get(id);
-        }
-        return null;
+        return facultyRepository.findById(id).get();
     }
 
-    @Override //Редактирование факультета
+    @Override//Редактирование факультета
     public Faculty editFaculty(Faculty faculty) {
-        if(faculty != null) {
-            facultyHashMap.put(faculty.getId(), faculty);
-            return faculty;
-        }
-        return null;
+        return facultyRepository.save(faculty);
     }
 
-    @Override //Удаление факультета
-    public Faculty deleteFaculty(long id) {
-        if (id > 0 && facultyHashMap.containsKey(id)) {
-            return facultyHashMap.remove(id);
-        }
-        return null;
+    @Override//Удаление факультета
+    public void deleteFaculty(long id) {
+        facultyRepository.deleteById(id);
     }
 
-    @Override //Получение списка всех факультетов
-    public Collection<Faculty> getAllFaculty(){
-        return facultyHashMap.values();
+    @Override//Получение списка всех факультетов
+    public Collection<Faculty> getAllFaculty() {
+        return facultyRepository.findAll();
     }
 
-    @Override
-    public Collection<Faculty> filterFacultyColor(String color){
-        return facultyHashMap.values().stream().filter(c -> c.getColor().equals(color)).
-                collect(Collectors.toList());
+    @Override//Получение списка факультетов по цвету
+    public Collection<Faculty> filterFacultyColor(String color) {
+        return facultyRepository.findByColor(color);
     }
 }

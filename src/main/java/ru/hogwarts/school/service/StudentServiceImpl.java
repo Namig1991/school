@@ -2,58 +2,49 @@ package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Student;
-import ru.hogwarts.school.schoolInterface.StudentService;
+import ru.hogwarts.school.repositories.StudentRepository;
+import ru.hogwarts.school.schoolInterface.StudentInterface;
+
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.stream.Collectors;
+
 
 @Service
-public class StudentServiceImpl implements StudentService {
+public class StudentServiceImpl implements StudentInterface {
 
-    private final HashMap<Long, Student> studentHashMap = new HashMap<>();
-    private long counterStudent = 0;
+    private final StudentRepository studentRepository;
 
-    @Override //Создание студента
+    public StudentServiceImpl(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
+
+    @Override//Создание студента
     public Student creatStudent(Student student) {
-        student.setId(++counterStudent);
-        studentHashMap.put(counterStudent, student);
-        return student;
+        return studentRepository.save(student);
     }
 
-    @Override //Поиск студента
+    @Override//Поиск студента
     public Student findStudent(long id) {
-        if (id > 0 && studentHashMap.containsKey(id)) {
-            return studentHashMap.get(id);
-        }
-        return null;
+        return studentRepository.findById(id).get();
     }
 
-    @Override //Редактирование студента
+    @Override//Редактирование студента
     public Student editStudent(Student student) {
-        if (student != null) {
-            studentHashMap.put(student.getId(), student);
-            return student;
-        }
-        return null;
+        return studentRepository.save(student);
     }
 
-    @Override //Удаление студента
-    public Student deleteStudent(long id) {
-        if (id > 0 && studentHashMap.containsKey(id)) {
-            return studentHashMap.remove(id);
-        }
-        return null;
+    @Override//Удаление студента
+    public void deleteStudent(long id) {
+        studentRepository.deleteById(id);
     }
 
-    @Override //Получение списка всех студентов
+    @Override//Получение списка всех студентов
     public Collection<Student> getAllStudents() {
-        return studentHashMap.values();
+        return studentRepository.findAll();
     }
 
-    @Override
-    public Collection<Student> filterStudentsAge(int age){
-        return studentHashMap.values().stream().filter(x ->x.getAge() == age).
-                collect(Collectors.toList());
+    @Override//Получение списка студентов по возрасту
+    public Collection<Student> filterStudentsAge(int age) {
+        return studentRepository.findByAge(age);
     }
 }
