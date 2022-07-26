@@ -3,6 +3,7 @@ package ru.hogwarts.school.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 
 import ru.hogwarts.school.schoolInterface.StudentInterface;
@@ -37,6 +38,20 @@ public class StudentController {
     @GetMapping("/info/{age}")
     public ResponseEntity<Collection<Student>> getFilterAgeList(int age) {
         return ResponseEntity.ok(studentInterface.filterStudentsAge(age));
+    }
+
+    @GetMapping("/age/info")
+    public ResponseEntity<Collection<Student>> getFilterAgeListFromParam(@RequestParam(required = false) Integer min,
+                                                                         @RequestParam(required = false) Integer max) {
+        if (min != null && max != null) {
+            return ResponseEntity.ok(studentInterface.filterListStudentAge(min, max));
+        }
+        return null;
+    }
+
+    @GetMapping("/get/faculty/student")
+    public ResponseEntity<Faculty> getFacultyByStudent(@RequestParam long facultyId){
+        return ResponseEntity.ok(studentInterface.getFacultyByStudent(facultyId));
     }
 
     @PostMapping

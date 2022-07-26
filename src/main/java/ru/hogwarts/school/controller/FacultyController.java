@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repositories.FacultyRepository;
 import ru.hogwarts.school.schoolInterface.FacultyInterface;
 
 
@@ -35,6 +37,23 @@ public class FacultyController {
     @GetMapping("/info/color")
     public ResponseEntity<Collection<Faculty>> getFilterListFacultyColor(String color) {
         return ResponseEntity.ok(facultyInterface.filterFacultyColor(color));
+    }
+
+    @GetMapping("/info/find")
+    public ResponseEntity<Faculty> findFacultyByNameOrColor(@RequestParam(required = false) String name,
+                                                            @RequestParam(required = false) String color){
+        if(name != null && !name.isBlank()){
+            return ResponseEntity.ok(facultyInterface.findByName(name));
+        }
+        if(color != null && !color.isBlank()){
+            return ResponseEntity.ok(facultyInterface.findByColor(color));
+        }
+        return null;
+    }
+
+    @GetMapping("/get/faculty/students")
+    public ResponseEntity<Collection<Student>> getStudentsByFaculty(@RequestParam long facultyId){
+        return ResponseEntity.ok(facultyInterface.getStudentsByFaculty(facultyId));
     }
 
     @PostMapping

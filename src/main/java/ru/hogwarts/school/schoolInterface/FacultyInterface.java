@@ -1,6 +1,7 @@
 package ru.hogwarts.school.schoolInterface;
 
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 
 import java.util.Collection;
 
@@ -22,4 +23,10 @@ public interface FacultyInterface {
 
     //Получение списка факультетов по цвету
     Collection<Faculty> filterFacultyColor(String color);
+
+    Faculty findByName(String name);
+
+    Faculty findByColor(String color);
+
+    Collection<Student> getStudentsByFaculty(Long facultyId);
 }
