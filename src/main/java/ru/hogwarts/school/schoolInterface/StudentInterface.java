@@ -1,5 +1,6 @@
 package ru.hogwarts.school.schoolInterface;
 
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 
 import java.util.Collection;
@@ -22,4 +23,8 @@ public interface StudentInterface {
 
     //Получение списка студентов по возрасту
     Collection<Student> filterStudentsAge(int age);
+
+    Collection<Student> filterListStudentAge(int min, int max);
+
+    Faculty getFacultyByStudent(Long facultyId);
 }
