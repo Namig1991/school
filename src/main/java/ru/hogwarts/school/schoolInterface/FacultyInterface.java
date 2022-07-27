@@ -24,9 +24,7 @@ public interface FacultyInterface {
     //Получение списка факультетов по цвету
     Collection<Faculty> filterFacultyColor(String color);
 
-    Faculty findByName(String name);
-
-    Faculty findByColor(String color);
+    Collection<Faculty> findFacultyByNameOrColor(String name, String color);
 
     Collection<Student> getStudentsByFaculty(Long facultyId);
 }

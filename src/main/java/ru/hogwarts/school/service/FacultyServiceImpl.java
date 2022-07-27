@@ -50,17 +50,12 @@ public class FacultyServiceImpl implements FacultyInterface {
     }
 
     @Override
-    public Faculty findByName(String name) {
-        return facultyRepository.findFacultiesByNameIgnoreCase(name);
+    public Collection<Faculty> findFacultyByNameOrColor(String name, String color) {
+        return facultyRepository.findFacultyByNameContainingIgnoreCaseOrColorContainingIgnoreCase(name, color);
     }
 
     @Override
-    public Faculty findByColor(String color) {
-        return facultyRepository.findFacultiesByColorIgnoreCase(color);
-    }
-
-    @Override
-    public Collection<Student> getStudentsByFaculty(Long facultyId){
+    public Collection<Student> getStudentsByFaculty(Long facultyId) {
         return findFaculty(facultyId).getStudents();
     }
 
