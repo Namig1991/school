@@ -27,7 +27,7 @@ public class AvatarController {
         this.avatarInterface = avatarInterface;
     }
 
-    @PostMapping(value = "/{id}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> uploadAvatar(@PathVariable Long id,
                                                @PathVariable MultipartFile avatar) throws IOException {
         if (avatar.getSize() > 1024 * 300) {
@@ -38,10 +38,10 @@ public class AvatarController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(value = "/{id}/avatar/preview")
-    public ResponseEntity<byte[]> downloadAvatar(@PathVariable Long studentId) {
+    @GetMapping(value = "/{id}/download")
+    public ResponseEntity<byte[]> downloadAvatar(@PathVariable Long id) {
 
-        Avatar avatar = avatarInterface.findAvatar(studentId);
+        Avatar avatar = avatarInterface.findAvatar(id);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(avatar.getMediaType()));
@@ -50,7 +50,7 @@ public class AvatarController {
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(avatar.getData());
     }
 
-    @GetMapping(value = "/{id}/avatar")
+    @GetMapping(value = "/{id}/download")
     public void downloadAvatar(@PathVariable Long id, HttpServletResponse response) throws IOException {
 
         Avatar avatar = avatarInterface.findAvatar(id);
