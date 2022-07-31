@@ -19,7 +19,7 @@ public class FacultyController {
         this.facultyInterface = facultyInterface;
     }
 
-    @GetMapping("{id}")
+    @GetMapping("{id}")//+
     public ResponseEntity<Faculty> getFacultyInfo(@PathVariable long id) {
         Faculty faculty = facultyInterface.findFaculty(id);
         if (faculty == null) {
@@ -28,17 +28,17 @@ public class FacultyController {
         return ResponseEntity.ok(faculty);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/all")//+
     public ResponseEntity<Collection<Faculty>> getAllFaculty() {
         return ResponseEntity.ok(facultyInterface.getAllFaculty());
     }
 
-    @GetMapping("/info/color")
+    @GetMapping("/filter")//+
     public ResponseEntity<Collection<Faculty>> getFilterListFacultyColor(String color) {
         return ResponseEntity.ok(facultyInterface.filterFacultyColor(color));
     }
 
-    @GetMapping("/info/find")
+    @GetMapping("/findFacultyByNameOrColor")//+-
     public ResponseEntity<Collection<Faculty>> findFacultyByNameOrColor(@RequestParam(required = false) String name,
                                                                         @RequestParam(required = false) String color){
         if(name != null && !name.isBlank()){
@@ -51,17 +51,17 @@ public class FacultyController {
     }
 
 
-    @GetMapping("/get/faculty/students")
+    @GetMapping("/get/students")//+
     public ResponseEntity<Collection<Student>> getStudentsByFaculty(@RequestParam long facultyId){
         return ResponseEntity.ok(facultyInterface.getStudentsByFaculty(facultyId));
     }
 
-    @PostMapping
+    @PostMapping//+
     public Faculty createFaculty(@RequestBody Faculty faculty) {
         return facultyInterface.createFaculty(faculty);
     }
 
-    @PutMapping
+    @PutMapping//+
     public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty) {
         Faculty facultyEdit = facultyInterface.editFaculty(faculty);
         if (facultyEdit == null) {
@@ -70,7 +70,7 @@ public class FacultyController {
         return ResponseEntity.ok(facultyInterface.editFaculty(faculty));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{id}")//+
     public ResponseEntity<Faculty> deleteFaculty(@PathVariable long id) {
         facultyInterface.deleteFaculty(id);
         return ResponseEntity.ok().build();
