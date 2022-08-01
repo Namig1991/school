@@ -2,7 +2,6 @@ package ru.hogwarts.school;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +27,6 @@ class StudentControllerTest {
 
 	@MockBean
 	private StudentRepository studentRepository;
-
-	//@Autowired (Если я мокую репозиторий то тест на удаление проходит, а тест на создание валится((( )
-	//private StudentRepository studentRepository; (А если я автовайрю репозиторий, то наоборот)
-
 
 	@Autowired
 	private StudentServiceImpl studentService;
