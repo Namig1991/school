@@ -175,7 +175,7 @@ public class FacultyControllerTest {
                 .andExpect(jsonPath("$.color").value(testColor));
     }
 
-    @Test//Не понимаю что с моим URL не так(( Пытался разные варинаты прописать, но тест падает((((
+    @Test
     public void mocMvcFindFacultyByNameOrColorTest() throws Exception {
         Faculty faculty = new Faculty();
         faculty.setName(testName);
@@ -193,7 +193,7 @@ public class FacultyControllerTest {
                 .thenReturn(List.of(faculty, faculty2));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/faculty/findFacultyByNameOrColor" + any(String.class))
+                        .get("/faculty/findFacultyByNameOrColor?name=" + any(String.class) + "&color=" + any(String.class))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .equals(forTest);

@@ -69,6 +69,7 @@ class StudentControllerTest {
 		student.setId(1L);
 		student.setName("Tonny Mor");
 		student.setAge(10);
+		when(studentRepository.save(any(Student.class))).thenReturn(student);
 		Assertions
 				.assertThat(this.restTemplate.postForObject("http://localhost:" + port + "/student", student, String.class))
 				.isNotNull();
@@ -83,7 +84,7 @@ class StudentControllerTest {
 		verify(studentRepository, times(1)).deleteById(1L);
 	}
 
-	@Test//Выдает ошибку 405 -> METHOD_NOT_ALLOWED
+	@Test
 	public void updateStudentTest() throws Exception {
 
 		Student updateStudent = new Student();
@@ -93,12 +94,11 @@ class StudentControllerTest {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<String> entity = new HttpEntity<>(om.writeValueAsString(updateStudent), headers);
 
-		ResponseEntity<String> response = restTemplate.exchange("/student/1", HttpMethod.PUT, entity, String.class);
+		ResponseEntity<String> response = restTemplate.exchange("/student", HttpMethod.PUT, entity, String.class);
 
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		JSONAssert.assertEquals(om.writeValueAsString(updateStudent), response.getBody(), false);
 
-		verify(studentRepository, times(1)).findById(1L);
 		verify(studentRepository, times(1)).save(any(Student.class));
 	}
 

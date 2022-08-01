@@ -61,11 +61,11 @@ public class StudentController {
 
     @PutMapping
     public ResponseEntity<Student> editStudent(@RequestBody Student student) {
-        Student studentEdit = studentInterface.creatStudent(student);
+        Student studentEdit = studentInterface.editStudent(student);
         if (studentEdit == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        return ResponseEntity.ok(studentInterface.editStudent(student));
+        return ResponseEntity.ok(studentEdit);
     }
 
     @DeleteMapping("/{id}")
