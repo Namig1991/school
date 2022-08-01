@@ -1,7 +1,5 @@
 package ru.hogwarts.school.model;
 
-import net.bytebuddy.dynamic.loading.InjectionClassLoader;
-
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
@@ -18,6 +16,10 @@ public class Faculty {
 
     public Collection<Student> getStudents() {
         return students;
+    }
+
+    public void setStudents(Collection<Student> students) {
+        this.students = students;
     }
 
     public Faculty(Long id, String name, String color) {
@@ -45,6 +47,8 @@ public class Faculty {
     public void setName(String name) {
         this.name = name;
     }
+
+
 
     public String getColor() {
         return color;
@@ -75,4 +79,5 @@ public class Faculty {
                 ", color='" + color + '\'' +
                 '}';
     }
+
 }
