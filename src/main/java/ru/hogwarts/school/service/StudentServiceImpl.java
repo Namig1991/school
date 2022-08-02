@@ -8,6 +8,7 @@ import ru.hogwarts.school.schoolInterface.StudentInterface;
 
 
 import java.util.Collection;
+import java.util.List;
 
 
 @Service
@@ -57,5 +58,20 @@ public class StudentServiceImpl implements StudentInterface {
     @Override
     public Faculty getFacultyByStudent(Long facultyId) {
         return findStudent(facultyId).getFaculty();
+    }
+
+    @Override
+    public int getStudentsBySchool() {
+        return studentRepository.getStudentBySchool();
+    }
+
+    @Override
+    public int getStudentAge_AVG_BySchool() {
+        return studentRepository.getStudentAge_AVG_BySchool();
+    }
+
+    @Override
+    public List<Student> getLastFiveStudents() {
+        return studentRepository.lastFiveStudents();
     }
 }
