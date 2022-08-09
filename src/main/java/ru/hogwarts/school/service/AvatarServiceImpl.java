@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -24,8 +26,10 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Transactional
 public class AvatarServiceImpl implements AvatarInterface {
 
-    private AvatarRepository avatarRepository;
-    private StudentServiceImpl studentService;
+    Logger logger = LoggerFactory.getLogger(AvatarServiceImpl.class);
+
+    private final AvatarRepository avatarRepository;
+    private final StudentServiceImpl studentService;
 
     public AvatarServiceImpl(AvatarRepository avatarRepository, StudentServiceImpl studentService) {
         this.avatarRepository = avatarRepository;
@@ -37,6 +41,8 @@ public class AvatarServiceImpl implements AvatarInterface {
 
     @Override
     public void uploadAvatar(Long studentId, MultipartFile file) throws IOException {
+
+        logger.debug("Был вызван метод uploadAvatar");
 
         Student student = studentService.findStudent(studentId);
 
@@ -63,6 +69,7 @@ public class AvatarServiceImpl implements AvatarInterface {
     }
 
     private byte[] generateImageDataPreview(Path filePath) throws IOException {
+        logger.debug("Был вызван метод generateImageDataPreview");
 
         try (InputStream is = Files.newInputStream(filePath);
              BufferedInputStream bis = new BufferedInputStream(is, 1024);
@@ -82,15 +89,18 @@ public class AvatarServiceImpl implements AvatarInterface {
 
     @Override
     public Avatar findAvatar(Long studentId) {
+        logger.debug("Был вызван метод findAvatar");
         return avatarRepository.findByStudentId(studentId).orElse(new Avatar());
     }
 
     private String getExtension(String fileName) {
+        logger.debug("Был вызван метод getExtension");
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
     @Override
     public List<Avatar> getAllAvatarsOnPage(Integer pageNumber, Integer pageSize) {
+        logger.debug("Был вызван метод getAllAvatarsOnPage");
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         return avatarRepository.findAll(pageRequest).getContent();
     }
