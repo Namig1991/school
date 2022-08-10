@@ -11,6 +11,7 @@ import ru.hogwarts.school.schoolInterface.StudentInterface;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -88,5 +89,27 @@ public class StudentServiceImpl implements StudentInterface {
     public List<Student> getLastFiveStudents() {
         logger.info("Был вызван метод getLastFiveStudents");
         return studentRepository.lastFiveStudents();
+    }
+
+    @Override
+    public List<String> findStudentBySortName(String sortName) {
+        logger.info("Был вызван метод findStudentBySortName");
+        return studentRepository.findAll()
+                .stream()
+                .map(Student::getName)
+                .filter(name -> name.contains(sortName))
+                .map(String::toUpperCase)
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Double getAverageAgeByAllStudents() {
+        logger.info("Был вызван метод getAverageAgeByAllStudents");
+        return studentRepository.findAll()
+                .stream()
+                .mapToDouble(Student::getAge)
+                .average()
+                .getAsDouble();
     }
 }

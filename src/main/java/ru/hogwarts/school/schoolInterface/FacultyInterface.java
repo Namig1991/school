@@ -27,4 +27,8 @@ public interface FacultyInterface {
     Collection<Faculty> findFacultyByNameOrColor(String name, String color);
 
     Collection<Student> getStudentsByFaculty(Long facultyId);
+
+    String getLongNameForFaculty();
+
+    int getIntegerSum();
 }

@@ -10,6 +10,8 @@ import ru.hogwarts.school.schoolInterface.FacultyInterface;
 
 
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.stream.Stream;
 
 
 @Service
@@ -71,4 +73,23 @@ public class FacultyServiceImpl implements FacultyInterface {
         return findFaculty(facultyId).getStudents();
     }
 
+    @Override
+    public String getLongNameForFaculty() {
+        logger.info("Был вызван метод getLongNameForFaculty");
+        return facultyRepository.findAll()
+                .stream()
+                .map(Faculty::getName)
+                .max(Comparator.comparing(s -> s.toCharArray().length))
+                .get();
+    }
+
+    @Override
+    public int getIntegerSum() {
+        logger.debug("был вызван метод createFaculty");
+        int sum = Stream.iterate(1, a -> a + 1)
+                .parallel()
+                .limit(1_000_000)
+                .reduce(0, Integer::sum);
+        return sum;
+    }
 }
