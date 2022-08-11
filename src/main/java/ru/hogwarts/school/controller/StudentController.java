@@ -101,4 +101,15 @@ public class StudentController {
     public List<Student> getLastFiveStudents(){
         return studentInterface.getLastFiveStudents();
     }
+
+    @GetMapping("/parallel-thread")
+    public void parallelThreadByName(){
+        studentInterface.parallelThread();
+    }
+
+    @GetMapping("/synchronized-thread")
+    public void synchronizedThread(){
+        studentInterface.synchronizedPrintStudentsName();
+    }
+
 }
