@@ -34,4 +34,8 @@ public interface StudentInterface {
     int getStudentAge_AVG_BySchool();
 
     List<Student> getLastFiveStudents();
+
+    List<String> findStudentBySortName(String sortName);
+
+    Double getAverageAgeByAllStudents();
 }

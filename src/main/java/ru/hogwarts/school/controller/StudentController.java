@@ -38,6 +38,16 @@ public class StudentController {
         return ResponseEntity.ok(studentInterface.getAllStudents());
     }
 
+    @GetMapping("/all-students-sort-name")
+    public ResponseEntity<List<String>> findStudentBySortName(@RequestParam String sortName){
+        return ResponseEntity.ok(studentInterface.findStudentBySortName(sortName));
+    }
+
+    @GetMapping("/average-age-all-students")
+    public Double getAverageAgeByAllStudents(){
+        return studentInterface.getAverageAgeByAllStudents();
+    }
+
     @GetMapping("/info/{age}")
     public ResponseEntity<Collection<Student>> getFilterAgeList(int age) {
         return ResponseEntity.ok(studentInterface.filterStudentsAge(age));

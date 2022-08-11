@@ -40,20 +40,29 @@ public class FacultyController {
 
     @GetMapping("/findFacultyByNameOrColor")//test+
     public ResponseEntity<Collection<Faculty>> findFacultyByNameOrColor(@RequestParam(required = false) String name,
-                                                                        @RequestParam(required = false) String color){
-        if(name != null && !name.isBlank()){
-            return ResponseEntity.ok(facultyInterface.findFacultyByNameOrColor(name,color));
+                                                                        @RequestParam(required = false) String color) {
+        if (name != null && !name.isBlank()) {
+            return ResponseEntity.ok(facultyInterface.findFacultyByNameOrColor(name, color));
         }
-        if(color != null && !color.isBlank()){
-            return ResponseEntity.ok(facultyInterface.findFacultyByNameOrColor(name,color));
+        if (color != null && !color.isBlank()) {
+            return ResponseEntity.ok(facultyInterface.findFacultyByNameOrColor(name, color));
         }
         return null;
     }
 
-
     @GetMapping("/get/students")//test+
-    public ResponseEntity<Collection<Student>> getStudentsByFaculty(@RequestParam long facultyId){
+    public ResponseEntity<Collection<Student>> getStudentsByFaculty(@RequestParam long facultyId) {
         return ResponseEntity.ok(facultyInterface.getStudentsByFaculty(facultyId));
+    }
+
+    @GetMapping("/long-name-for-faculty")
+    public String getLongNameForFaculty() {
+        return facultyInterface.getLongNameForFaculty();
+    }
+
+    @GetMapping("/integer-sum")
+    public int getIntegerSum(){
+        return facultyInterface.getIntegerSum();
     }
 
     @PostMapping//test+
