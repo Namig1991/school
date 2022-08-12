@@ -38,4 +38,8 @@ public interface StudentInterface {
     List<String> findStudentBySortName(String sortName);
 
     Double getAverageAgeByAllStudents();
+
+    void parallelThread();
+
+    void synchronizedPrintStudentsName();
 }

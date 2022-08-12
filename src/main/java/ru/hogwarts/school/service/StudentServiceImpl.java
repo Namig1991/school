@@ -112,4 +112,62 @@ public class StudentServiceImpl implements StudentInterface {
                 .average()
                 .getAsDouble();
     }
+
+    private List<String> getAllStudentsByNameParallel() {
+        return studentRepository.getAllStudentsByName().stream().map(Student::getName).toList();
+    }
+
+    @Override
+    public void parallelThread() {
+
+        Thread thread2 = new Thread(() -> {
+            System.out.println(getAllStudentsByNameParallel().get(3));
+            System.out.println(getAllStudentsByNameParallel().get(4));
+            System.out.println(getAllStudentsByNameParallel().get(5));
+        });
+
+        Thread thread3 = new Thread(() -> {
+            System.out.println(getAllStudentsByNameParallel().get(6));
+            System.out.println(getAllStudentsByNameParallel().get(7));
+            System.out.println(getAllStudentsByNameParallel().get(8));
+        });
+
+        thread2.start();
+        thread3.start();
+
+        System.out.println(getAllStudentsByNameParallel().get(0));
+        System.out.println(getAllStudentsByNameParallel().get(1));
+        System.out.println(getAllStudentsByNameParallel().get(2));
+    }
+
+    private final Object flag = new Object();
+
+    private void printNameForSynchronizedThread(String name) {
+        System.out.println(name);
+    }
+
+    @Override
+    public void synchronizedPrintStudentsName() {
+        printNameForSynchronizedThread(getAllStudentsByNameParallel().get(0));
+        printNameForSynchronizedThread(getAllStudentsByNameParallel().get(1));
+        printNameForSynchronizedThread(getAllStudentsByNameParallel().get(2));
+
+        new Thread(() -> {
+            synchronized (flag) {
+                printNameForSynchronizedThread(getAllStudentsByNameParallel().get(3));
+                printNameForSynchronizedThread(getAllStudentsByNameParallel().get(4));
+                printNameForSynchronizedThread(getAllStudentsByNameParallel().get(5));
+            }
+        }
+        ).start();
+
+        new Thread(() -> {
+            synchronized (flag) {
+                printNameForSynchronizedThread(getAllStudentsByNameParallel().get(6));
+                printNameForSynchronizedThread(getAllStudentsByNameParallel().get(7));
+                printNameForSynchronizedThread(getAllStudentsByNameParallel().get(8));
+            }
+        }
+        ).start();
+    }
 }
